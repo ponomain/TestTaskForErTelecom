@@ -1,10 +1,8 @@
 package ru.er.app;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -19,13 +17,21 @@ public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         Properties properties = new Properties();
         properties.load(Main.class.getClassLoader().getResourceAsStream("application.properties"));
-        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
-        Scanner scanner = new Scanner(Main.class.getClassLoader().getResourceAsStream("sql/query.sql"));
-        Statement statement = connection.createStatement();
-        while (scanner.hasNextLine()) {
-            statement.execute(scanner.nextLine());
-            System.out.println(statement.getResultSet());
+        try (Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties)) {
+            StringBuilder sql = new StringBuilder();
+            try (Scanner scanner = new Scanner(Objects.requireNonNull
+                    (Main.class.getClassLoader().getResourceAsStream("sql/query.sql")))) {
+                while (scanner.hasNextLine()) {
+                    sql.append(scanner.nextLine());
+                }
+            }
+            ResultSet resultSet;
+            try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+                resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString("title"));
+                }
+            }
         }
-        connection.close();
     }
 }
