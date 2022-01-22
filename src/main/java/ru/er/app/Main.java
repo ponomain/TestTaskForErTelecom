@@ -3,8 +3,7 @@ package ru.er.app;
 import ru.er.json.JSONObject;
 import ru.er.json.JSONParser;
 
-import java.util.Objects;
-import java.util.Scanner;
+import java.io.File;
 
 /**
  * 18.01.2022
@@ -15,10 +14,10 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-
-        JSONParser parser = new JSONParser();
         JSONObject json = new JSONObject();
-        parser.parse(json);
+        File file = new File("src/main/resources/query.sql");
+        JSONParser parser = new JSONParser(json, file);
+        parser.parse();
         System.out.println(json);
     }
 }

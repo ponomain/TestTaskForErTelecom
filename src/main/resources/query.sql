@@ -1,5 +1,5 @@
-SELECT product_id, customer_id, title, order_date
-FROM order_product
-RIGHT JOIN product p on p.id = order_product.product_id
-WHERE order_date < '2018-08-30'
-ORDER BY title;
+SELECT customer_id, product_id
+FROM orders_product
+RIGHT JOIN customers on orders_product.customer_id = customers.id
+WHERE customers.id < 10
+GROUP BY product_id
