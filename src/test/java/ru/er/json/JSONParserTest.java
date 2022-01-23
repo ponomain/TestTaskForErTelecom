@@ -48,7 +48,7 @@ class JSONParserTest {
     }
 
     @Test
-    void whenParsingFromFile() throws FileNotFoundException {
+    void whenParsingFromFile(){
         file = new File("src/test/resources/query_test.sql");
         JSONObject newObject = new JSONObject();
         JSONParser parser = new JSONParser(newObject, file);
@@ -56,4 +56,14 @@ class JSONParserTest {
         assertEquals(object.toString(), newObject.toString());
     }
 
+    @Test
+    void whenEmptyObject(){
+        file = new File("src/test/resources/query_null.sql");
+        JSONObject newObject = new JSONObject();
+        JSONParser parser = new JSONParser(newObject, file);
+        parser.parse();
+        JSONObject emptyObject = new JSONObject();
+        assertEquals(newObject.toString(), emptyObject.toString());
+        assertTrue(newObject.getData().isEmpty());
+    }
 }

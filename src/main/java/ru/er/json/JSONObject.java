@@ -22,6 +22,10 @@ public class JSONObject {
         this.data = data;
     }
 
+    public Map<String, Object[]> getData() {
+        return data;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{ \n");
