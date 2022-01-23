@@ -21,7 +21,7 @@
 
 ### JSON
 ```JSON
-  { 
+{ 
    "CRUD" : ["SELECT"]
    "VALUES" : ["customer_id, product_id"]
    "FROM" : ["orders_product"]
